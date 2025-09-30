@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lũy Thừa Số Hữu Tỷ - Toán 7</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, #48bb78, #38b2ac);
+        }
+
+        .tab-content {
+            display: none;
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .fraction {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            margin: 0 5px;
+        }
+
+        .fraction .numerator {
+            display: block;
+            border-bottom: 2px solid #2d3748;
+            padding-bottom: 2px;
+            font-size: 1.1em;
+        }
+
+        .fraction .denominator {
+            display: block;
+            padding-top: 2px;
+            font-size: 1.1em;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            color: #2d3748;
+            min-width: 100px;
+        }
+
+        .input-group input {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 60px;
+            text-align: center;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            background: linear-gradient(45deg, #48bb78, #38b2ac);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .example {
+            background: #fff5f5;
+            border-left: 4px solid #f56565;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .example h4 {
+            color: #c53030;
+            margin-top: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+            color: #718096;
+            font-style: italic;
+        }
+
+        .power-display {
+            font-size: 1.5em;
+            margin: 15px 0;
+            text-align: center;
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px dashed #4299e1;
+        }
+
+        .comparison-result {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .score-display {
+            display: flex;
+            gap: 20px;
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 1.1em;
+        }
+
+        .question-type-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question-type-selector label {
+            font-weight: bold;
+            color: #2d3748;
+            white-space: nowrap;
+        }
+
+        .type-dropdown {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        .type-dropdown:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        .quiz-container {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .question-section {
+            margin-bottom: 25px;
+        }
+
+        .question-display {
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            text-align: center;
+            border: 2px solid #4299e1;
+            margin: 15px 0;
+        }
+
+        .answers-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .answer-option {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 60px;
+        }
+
+        .answer-option:hover {
+            border-color: #4299e1;
+            background: #ebf8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .answer-option.selected {
+            border-color: #3182ce;
+            background: #bee3f8;
+        }
+
+        .answer-option.correct {
+            border-color: #48bb78;
+            background: #c6f6d5;
+        }
+
+        .answer-option.incorrect {
+            border-color: #f56565;
+            background: #fed7d7;
+        }
+
+        .option-label {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #2d3748;
+            min-width: 25px;
+        }
+
+        .option-content {
+            font-size: 1.1em;
+        }
+
+        .explanation {
+            background: #fff5f5;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 20px;
+        }
+
+        .explanation h4 {
+            color: #2f855a;
+            margin-top: 0;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .quiz-controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .question-type-selector {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .type-dropdown {
+                min-width: 250px;
+            }
+            
+            .answers-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-display {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🎯 Lũy Thừa Số Hữu Tỷ</h1>
+            <p class="subtitle">Toán lớp 7 - Học vui, hiểu sâu! 📚✨</p>
+        </div>
+
+        <div class="quiz-controls">
+            <div class="question-type-selector">
+                <label for="question-type">🎯 Chọn dạng toán:</label>
+                <select id="question-type" class="type-dropdown" onchange="generateQuestionByType()">
+                    <option value="random">🎲 Ngẫu nhiên</option>
+                    <option value="calculate">📊 Tính giá trị lũy thừa</option>
+                    <option value="write-compact">✏️ Viết gọn thành lũy thừa</option>
+                    <option value="multiply">✖️ Nhân hai lũy thừa cùng cơ số</option>
+                    <option value="divide">➗ Chia hai lũy thừa cùng cơ số</option>
+                    <option value="power-of-product">🔢 Lũy thừa của một tích</option>
+                    <option value="power-of-quotient">📐 Lũy thừa của một thương</option>
+                    <option value="simplify">🎯 Lũy thừa của lũy thừa</option>
+                    <option value="compare">⚖️ So sánh hai lũy thừa</option>
+                    <option value="simplify-expression">🧮 Thu gọn lũy thừa</option>
+                </select>
+            </div>
+            <div class="score-display">
+                <span>Điểm: <span id="score">0</span></span>
+                <span>Câu: <span id="question-count">1</span>/10</span>
+                <span>Đúng: <span id="correct-count">0</span>/<span id="total-answered">0</span></span>
+                <span>Tỷ lệ: <span id="accuracy-rate">0%</span></span>
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="question-section">
+                <h3 id="question-title">🧮 Câu hỏi 1: Tính giá trị lũy thừa</h3>
+                <div class="question-display" id="question-display">
+                    Tính giá trị của (<span class="fraction"><span class="numerator">2</span><span class="denominator">3</span></span>)<sup>2</sup>
+                </div>
+            </div>
+
+            <div class="answers-section">
+                <div class="answer-option" onclick="selectAnswer(0)">
+                    <span class="option-label">A.</span>
+                    <span class="option-content" id="option-0">
+                        <span class="fraction"><span class="numerator">4</span><span class="denominator">9</span></span>
+                    </span>
+                </div>
+                <div class="answer-option" onclick="selectAnswer(1)">
+                    <span class="option-label">B.</span>
+                    <span class="option-content" id="option-1">
+                        <span class="fraction"><span class="numerator">4</span><span class="denominator">6</span></span>
+                    </span>
+                </div>
+                <div class="answer-option" onclick="selectAnswer(2)">
+                    <span class="option-label">C.</span>
+                    <span class="option-content" id="option-2">
+                        <span class="fraction"><span class="numerator">2</span><span class="denominator">6</span></span>
+                    </span>
+                </div>
+                <div class="answer-option" onclick="selectAnswer(3)">
+                    <span class="option-label">D.</span>
+                    <span class="option-content" id="option-3">
+                        <span class="fraction"><span class="numerator">8</span><span class="denominator">27</span></span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="result" id="quiz-result">Chọn đáp án để kiểm tra! 🎯</div>
+            
+            <div class="explanation" id="explanation" style="display: none;">
+                <h4>💡 Giải thích:</h4>
+                <p id="explanation-text"></p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🎨 Thiết kế: Thiệp-Hạnh 2025 ✨</p>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = {};
+        let score = 0;
+        let questionCount = 1;
+        let selectedAnswer = -1;
+        let answered = false;
+        let correctCount = 0;
+        let totalAnswered = 0;
+
+        const questionTypes = [
+            'calculate', 'multiply', 'divide', 'simplify', 'compare', 'power-of-product', 'power-of-quotient'
+        ];
+
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        function simplifyFraction(num, den) {
+            const g = gcd(Math.abs(num), Math.abs(den));
+            return [num / g, den / g];
+        }
+
+        function generateRandomFraction() {
+            const num = Math.floor(Math.random() * 5) + 1; // 1-5
+            const den = Math.floor(Math.random() * 5) + 2; // 2-6
+            return [num, den];
+        }
+
+        function generateCalculateQuestion() {
+            const [num, den] = generateRandomFraction();
+            const exp = Math.floor(Math.random() * 3) + 2; // 2-4
+            
+            const correctNum = Math.pow(num, exp);
+            const correctDen = Math.pow(den, exp);
+            const [simplifiedNum, simplifiedDen] = simplifyFraction(correctNum, correctDen);
+            
+            const question = `Tính giá trị của (<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp}</sup>`;
+            
+            const correctAnswer = `<span class="fraction"><span class="numerator">${simplifiedNum}</span><span class="denominator">${simplifiedDen}</span></span>`;
+            
+            // Tạo đáp án sai
+            const wrongAnswers = [
+                `<span class="fraction"><span class="numerator">${num * exp}</span><span class="denominator">${den * exp}</span></span>`,
+                `<span class="fraction"><span class="numerator">${correctNum}</span><span class="denominator">${correctDen + 1}</span></span>`,
+                `<span class="fraction"><span class="numerator">${correctNum + 1}</span><span class="denominator">${correctDen}</span></span>`
+            ];
+            
+            const explanation = `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp}</sup> = <span class="fraction"><span class="numerator">${num}<sup>${exp}</sup></span><span class="denominator">${den}<sup>${exp}</sup></span></span> = <span class="fraction"><span class="numerator">${correctNum}</span><span class="denominator">${correctDen}</span></span>${simplifiedNum !== correctNum ? ` = <span class="fraction"><span class="numerator">${simplifiedNum}</span><span class="denominator">${simplifiedDen}</span></span>` : ''}`;
+            
+            return {
+                type: 'calculate',
+                title: 'Tính giá trị lũy thừa',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generateMultiplyQuestion() {
+            const [num, den] = generateRandomFraction();
+            const exp1 = Math.floor(Math.random() * 3) + 1; // 1-3
+            const exp2 = Math.floor(Math.random() * 3) + 1; // 1-3
+            
+            const question = `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1}</sup> × (<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp2}</sup> bằng:`;
+            
+            const correctExp = exp1 + exp2;
+            const correctAnswer = `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${correctExp}</sup>`;
+            
+            const wrongAnswers = [
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1 * exp2}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1 - exp2}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num * 2}</span><span class="denominator">${den}</span></span>)<sup>${exp1}</sup>`
+            ];
+            
+            const explanation = `Khi nhân hai lũy thừa cùng cơ số, ta cộng các số mũ: ${exp1} + ${exp2} = ${correctExp}`;
+            
+            return {
+                type: 'multiply',
+                title: 'Nhân hai lũy thừa cùng cơ số',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generateDivideQuestion() {
+            const [num, den] = generateRandomFraction();
+            const exp2 = Math.floor(Math.random() * 2) + 1; // 1-2
+            const exp1 = exp2 + Math.floor(Math.random() * 3) + 1; // exp2 + 1 đến exp2 + 3
+            
+            const question = `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1}</sup> ÷ (<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp2}</sup> bằng:`;
+            
+            const correctExp = exp1 - exp2;
+            const correctAnswer = correctExp === 1 ? 
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)` :
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${correctExp}</sup>`;
+            
+            const wrongAnswers = [
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1 + exp2}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1 * exp2}</sup>`,
+                `1`
+            ];
+            
+            const explanation = `Khi chia hai lũy thừa cùng cơ số, ta trừ các số mũ: ${exp1} - ${exp2} = ${correctExp}`;
+            
+            return {
+                type: 'divide',
+                title: 'Chia hai lũy thừa cùng cơ số',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generateSimplifyQuestion() {
+            const [num, den] = generateRandomFraction();
+            const inner = Math.floor(Math.random() * 3) + 2; // 2-4
+            const outer = Math.floor(Math.random() * 3) + 2; // 2-4
+            
+            const question = `[(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${inner}</sup>]<sup>${outer}</sup> bằng:`;
+            
+            const correctExp = inner * outer;
+            const correctAnswer = `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${correctExp}</sup>`;
+            
+            const wrongAnswers = [
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${inner + outer}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num}<sup>${outer}</sup></span><span class="denominator">${den}<sup>${outer}</sup></span></span>)<sup>${inner}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${inner}<sup>${outer}</sup></sup>`
+            ];
+            
+            const explanation = `Khi có lũy thừa của lũy thừa, ta nhân các số mũ: ${inner} × ${outer} = ${correctExp}`;
+            
+            return {
+                type: 'simplify',
+                title: 'Thu gọn lũy thừa',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generateCompareQuestion() {
+            const [num1, den1] = generateRandomFraction();
+            const [num2, den2] = generateRandomFraction();
+            const exp1 = Math.floor(Math.random() * 3) + 2;
+            const exp2 = Math.floor(Math.random() * 3) + 2;
+            
+            const value1 = Math.pow(num1 / den1, exp1);
+            const value2 = Math.pow(num2 / den2, exp2);
+            
+            const question = `So sánh (<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> và (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>`;
+            
+            let correctAnswer, symbol;
+            if (value1 > value2) {
+                symbol = '>';
+                correctAnswer = `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> > (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>`;
+            } else if (value1 < value2) {
+                symbol = '<';
+                correctAnswer = `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> < (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>`;
+            } else {
+                symbol = '=';
+                correctAnswer = `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> = (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>`;
+            }
+            
+            const wrongAnswers = [
+                symbol !== '>' ? `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> > (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>` : `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> < (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>`,
+                symbol !== '<' ? `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> < (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>` : `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> > (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>`,
+                symbol !== '=' ? `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> = (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>` : `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp1}</sup> > (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp2}</sup>`
+            ];
+            
+            const explanation = `Tính giá trị: ${value1.toFixed(4)} ${symbol} ${value2.toFixed(4)}`;
+            
+            return {
+                type: 'compare',
+                title: 'So sánh hai lũy thừa',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generatePowerOfProductQuestion() {
+            const num1 = Math.floor(Math.random() * 4) + 1; // 1-4
+            const den1 = Math.floor(Math.random() * 4) + 2; // 2-5
+            const num2 = Math.floor(Math.random() * 4) + 1; // 1-4
+            const den2 = Math.floor(Math.random() * 4) + 2; // 2-5
+            const exp = Math.floor(Math.random() * 3) + 2; // 2-4
+            
+            const question = `[(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>) × (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)]<sup>${exp}</sup> bằng:`;
+            
+            const correctAnswer = `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp}</sup> × (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp}</sup>`;
+            
+            const wrongAnswers = [
+                `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>) × (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num1 * num2}</span><span class="denominator">${den1 * den2}</span></span>)<sup>${exp}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp}</sup> + (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp}</sup>`
+            ];
+            
+            const explanation = `Lũy thừa của một tích: (a × b)<sup>n</sup> = a<sup>n</sup> × b<sup>n</sup>`;
+            
+            return {
+                type: 'power-of-product',
+                title: 'Lũy thừa của một tích',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generatePowerOfQuotientQuestion() {
+            const num1 = Math.floor(Math.random() * 4) + 2; // 2-5
+            const den1 = Math.floor(Math.random() * 4) + 2; // 2-5
+            const num2 = Math.floor(Math.random() * 3) + 1; // 1-3
+            const den2 = Math.floor(Math.random() * 3) + 2; // 2-4
+            const exp = Math.floor(Math.random() * 3) + 2; // 2-4
+            
+            const question = `[(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>) ÷ (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)]<sup>${exp}</sup> bằng:`;
+            
+            const correctAnswer = `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp}</sup> ÷ (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp}</sup>`;
+            
+            const wrongAnswers = [
+                `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>) ÷ (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp}</sup>`,
+                `<span class="fraction"><span class="numerator">(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp}</sup></span><span class="denominator">(<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)</span></span>`,
+                `(<span class="fraction"><span class="numerator">${num1}</span><span class="denominator">${den1}</span></span>)<sup>${exp}</sup> - (<span class="fraction"><span class="numerator">${num2}</span><span class="denominator">${den2}</span></span>)<sup>${exp}</sup>`
+            ];
+            
+            const explanation = `Lũy thừa của một thương: (a ÷ b)<sup>n</sup> = a<sup>n</sup> ÷ b<sup>n</sup>`;
+            
+            return {
+                type: 'power-of-quotient',
+                title: 'Lũy thừa của một thương',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generateWriteCompactQuestion() {
+            const [num, den] = generateRandomFraction();
+            const exp = Math.floor(Math.random() * 3) + 2; // 2-4
+            
+            // Tạo biểu thức dạng a/b × a/b × ... × a/b (exp lần)
+            let expression = '';
+            for (let i = 0; i < exp; i++) {
+                if (i > 0) expression += ' × ';
+                expression += `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)`;
+            }
+            
+            const question = `Viết gọn biểu thức sau thành lũy thừa: ${expression}`;
+            
+            const correctAnswer = `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp}</sup>`;
+            
+            const wrongAnswers = [
+                `<span class="fraction"><span class="numerator">${num}<sup>${exp}</sup></span><span class="denominator">${den}</span></span>`,
+                `<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}<sup>${exp}</sup></span></span>`,
+                `<span class="fraction"><span class="numerator">${num * exp}</span><span class="denominator">${den * exp}</span></span>`
+            ];
+            
+            const explanation = `Khi nhân ${exp} thừa số giống nhau, ta viết thành lũy thừa bậc ${exp}`;
+            
+            return {
+                type: 'write-compact',
+                title: 'Viết gọn thành lũy thừa',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generateSimplifyExpressionQuestion() {
+            const [num, den] = generateRandomFraction();
+            const exp1 = Math.floor(Math.random() * 3) + 2; // 2-4
+            const exp2 = Math.floor(Math.random() * 3) + 2; // 2-4
+            const exp3 = Math.floor(Math.random() * 2) + 1; // 1-2
+            
+            const question = `Thu gọn biểu thức: (<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1}</sup> × (<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp2}</sup> ÷ (<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp3}</sup>`;
+            
+            const resultExp = exp1 + exp2 - exp3;
+            const correctAnswer = resultExp === 1 ? 
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)` :
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${resultExp}</sup>`;
+            
+            const wrongAnswers = [
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1 * exp2 - exp3}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1 + exp2 + exp3}</sup>`,
+                `(<span class="fraction"><span class="numerator">${num}</span><span class="denominator">${den}</span></span>)<sup>${exp1 - exp2 + exp3}</sup>`
+            ];
+            
+            const explanation = `Nhân lũy thừa cùng cơ số: cộng số mũ. Chia lũy thừa cùng cơ số: trừ số mũ. ${exp1} + ${exp2} - ${exp3} = ${resultExp}`;
+            
+            return {
+                type: 'simplify-expression',
+                title: 'Thu gọn lũy thừa',
+                question,
+                correctAnswer,
+                wrongAnswers,
+                explanation
+            };
+        }
+
+        function generateQuestionByType() {
+            const selectedType = document.getElementById('question-type').value;
+            
+            if (questionCount > 10) {
+                showFinalResult();
+                return;
+            }
+            
+            // Reset trạng thái
+            selectedAnswer = -1;
+            answered = false;
+            document.getElementById('explanation').style.display = 'none';
+            document.getElementById('quiz-result').innerHTML = 'Chọn đáp án để kiểm tra! 🎯';
+            
+            // Xóa class từ các đáp án
+            document.querySelectorAll('.answer-option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Tạo câu hỏi theo loại được chọn
+            let questionType;
+            if (selectedType === 'random') {
+                const questionTypes = [
+                    'calculate', 'multiply', 'divide', 'simplify', 'compare', 
+                    'power-of-product', 'power-of-quotient', 'write-compact', 'simplify-expression'
+                ];
+                questionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+            } else {
+                questionType = selectedType;
+            }
+            
+            switch(questionType) {
+                case 'calculate':
+                    currentQuestion = generateCalculateQuestion();
+                    break;
+                case 'write-compact':
+                    currentQuestion = generateWriteCompactQuestion();
+                    break;
+                case 'multiply':
+                    currentQuestion = generateMultiplyQuestion();
+                    break;
+                case 'divide':
+                    currentQuestion = generateDivideQuestion();
+                    break;
+                case 'power-of-product':
+                    currentQuestion = generatePowerOfProductQuestion();
+                    break;
+                case 'power-of-quotient':
+                    currentQuestion = generatePowerOfQuotientQuestion();
+                    break;
+                case 'simplify':
+                    currentQuestion = generateSimplifyQuestion();
+                    break;
+                case 'compare':
+                    currentQuestion = generateCompareQuestion();
+                    break;
+                case 'simplify-expression':
+                    currentQuestion = generateSimplifyExpressionQuestion();
+                    break;
+            }
+            
+            // Hiển thị câu hỏi
+            document.getElementById('question-title').innerHTML = `🧮 Câu hỏi ${questionCount}: ${currentQuestion.title}`;
+            document.getElementById('question-display').innerHTML = currentQuestion.question;
+            
+            // Trộn đáp án
+            const allAnswers = [currentQuestion.correctAnswer, ...currentQuestion.wrongAnswers];
+            const shuffledAnswers = shuffleArray(allAnswers);
+            currentQuestion.correctIndex = shuffledAnswers.indexOf(currentQuestion.correctAnswer);
+            
+            // Hiển thị đáp án
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`option-${i}`).innerHTML = shuffledAnswers[i];
+            }
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function selectAnswer(index) {
+            if (answered) return;
+            
+            selectedAnswer = index;
+            answered = true;
+            totalAnswered++;
+            
+            // Hiển thị kết quả
+            const options = document.querySelectorAll('.answer-option');
+            options[currentQuestion.correctIndex].classList.add('correct');
+            
+            if (index === currentQuestion.correctIndex) {
+                score++;
+                correctCount++;
+                document.getElementById('quiz-result').innerHTML = '🎉 Chính xác! Tuyệt vời!';
+            } else {
+                options[index].classList.add('incorrect');
+                document.getElementById('quiz-result').innerHTML = '❌ Sai rồi! Đáp án đúng được tô màu xanh.';
+            }
+            
+            // Cập nhật thống kê
+            updateStatistics();
+            
+            // Hiển thị giải thích
+            document.getElementById('explanation-text').innerHTML = currentQuestion.explanation;
+            document.getElementById('explanation').style.display = 'block';
+            
+            // Tự động chuyển câu tiếp theo sau 3 giây
+            setTimeout(() => {
+                questionCount++;
+                document.getElementById('question-count').textContent = questionCount;
+                generateQuestionByType();
+            }, 3000);
+        }
+
+        function updateStatistics() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('total-answered').textContent = totalAnswered;
+            
+            const accuracyRate = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
+            document.getElementById('accuracy-rate').textContent = accuracyRate + '%';
+        }
+
+        function showFinalResult() {
+            const percentage = (score / 10) * 100;
+            let message = '';
+            
+            if (percentage >= 90) {
+                message = '🏆 Xuất sắc! Bạn đã thành thạo lũy thừa số hữu tỷ!';
+            } else if (percentage >= 70) {
+                message = '👏 Tốt lắm! Bạn đã hiểu khá tốt về lũy thừa!';
+            } else if (percentage >= 50) {
+                message = '📚 Khá ổn! Hãy ôn tập thêm để cải thiện!';
+            } else {
+                message = '💪 Cần cố gắng thêm! Hãy học lại lý thuyết nhé!';
+            }
+            
+            document.querySelector('.quiz-container').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2>🎯 Kết Quả Cuối Cùng</h2>
+                    <div style="font-size: 2em; margin: 20px 0; color: #4299e1;">
+                        ${score}/10 điểm (${percentage}%)
+                    </div>
+                    <p style="font-size: 1.2em; margin: 20px 0;">${message}</p>
+                    <button class="btn" onclick="restartQuiz()">🔄 Làm Lại</button>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            score = 0;
+            questionCount = 1;
+            correctCount = 0;
+            totalAnswered = 0;
+            
+            // Cập nhật hiển thị
+            updateStatistics();
+            document.getElementById('question-count').textContent = '1';
+            
+            // Khôi phục giao diện quiz
+            document.querySelector('.quiz-container').innerHTML = `
+                <div class="question-section">
+                    <h3 id="question-title">🧮 Câu hỏi 1: Tính giá trị lũy thừa</h3>
+                    <div class="question-display" id="question-display"></div>
+                </div>
+                <div class="answers-section">
+                    <div class="answer-option" onclick="selectAnswer(0)">
+                        <span class="option-label">A.</span>
+                        <span class="option-content" id="option-0"></span>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(1)">
+                        <span class="option-label">B.</span>
+                        <span class="option-content" id="option-1"></span>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(2)">
+                        <span class="option-label">C.</span>
+                        <span class="option-content" id="option-2"></span>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(3)">
+                        <span class="option-label">D.</span>
+                        <span class="option-content" id="option-3"></span>
+                    </div>
+                </div>
+                <div class="result" id="quiz-result">Chọn đáp án để kiểm tra! 🎯</div>
+                <div class="explanation" id="explanation" style="display: none;">
+                    <h4>💡 Giải thích:</h4>
+                    <p id="explanation-text"></p>
+                </div>
+            `;
+            
+            generateQuestionByType();
+        }
+
+        // Khởi tạo câu hỏi đầu tiên
+        generateQuestionByType();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'986f222b8771bd75',t:'MTc1OTE4NzIxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
